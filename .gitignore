@@ -1,0 +1,143 @@
+# =============================================================================
+# Claude Code / contexto local (nao versionar)
+# =============================================================================
+.claude/
+CLAUDE.md
+.mcp.json
+
+# =============================================================================
+# Segredos e credenciais (NUNCA versionar)
+# =============================================================================
+# Variaveis de ambiente
+.env
+.env.*
+!.env.example
+!.env.sample
+*.env
+
+# AWS
+.aws/
+aws.json
+credentials
+**/credentials
+config.aws
+*.pem
+*.ppk
+*_rsa
+*_rsa.pub
+*.p12
+*.pfx
+
+# Chaves e certificados genericos
+*.key
+*.crt
+*.cer
+*.der
+*.keystore
+*.jks
+id_rsa*
+id_ed25519*
+*.gpg
+*.asc
+
+# Segredos diversos
+secrets.yaml
+secrets.yml
+secrets.json
+secret*.tfvars
+*.secret
+*.secrets
+
+# =============================================================================
+# Terraform
+# =============================================================================
+# Diretorios de trabalho e plugins
+**/.terraform/*
+.terraform.lock.hcl
+
+# Arquivos de state (podem conter dados sensiveis)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+
+# Arquivos de variaveis com possiveis segredos
+*.tfvars
+*.tfvars.json
+!example.tfvars
+!*.tfvars.example
+
+# Override files (uso local)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Planos salvos (podem conter segredos)
+*.tfplan
+tfplan
+plan.out
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# =============================================================================
+# VS Code
+# =============================================================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.code-workspace
+.ionide/
+
+# =============================================================================
+# Markdown / docs (artefatos gerados)
+# =============================================================================
+# Renderizacoes e exports temporarios
+*.md.html
+.markdownlint-cache/
+node_modules/
+
+# =============================================================================
+# Sistema operacional
+# =============================================================================
+# macOS
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# =============================================================================
+# Logs, temporarios e workspace local
+# =============================================================================
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+_workspace/
+tmp/
+.cache/
