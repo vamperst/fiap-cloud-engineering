@@ -417,7 +417,7 @@ Os dois aprendizados centrais para levar:
 
 ## Próximo passo
 
-No próximo laboratório (trabalho final em [../../04-Trabalho-Final](../../04-Trabalho-Final)) você monta uma arquitetura completa combinando storage, compute e networking — incluindo, em várias soluções, ECS Fargate como peça de compute.
+Este é o último laboratório do módulo de Compute. Com EFS (storage), x86 vs Graviton e ECS+Fargate na bagagem, você já tem as peças de storage e compute para montar arquiteturas completas combinando storage, compute e networking — com ECS Fargate como peça de compute em várias delas.
 
 ---
 
@@ -455,7 +455,7 @@ No próximo laboratório (trabalho final em [../../04-Trabalho-Final](../../04-T
 
 **Canais, em ordem:**
 
-1. [Issues deste repositório](https://github.com/rafaelmbarbosa/fiap-cloud-engineering/issues) — preferido, cria histórico pesquisável para os próximos alunos.
+1. [Issues deste repositório](https://github.com/vamperst/fiap-cloud-engineering/issues) — preferido, cria histórico pesquisável para os próximos alunos.
 2. Email do professor com os 4 itens acima.
 3. Na sala de aula, durante o laboratório.
 

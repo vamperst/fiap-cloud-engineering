@@ -1,9 +1,9 @@
 # .devcontainer — Configuração do ambiente dos laboratórios
 
-Esta pasta contém a definição do ambiente de desenvolvimento usado em todos os laboratórios da disciplina **Data Warehouse, Lakehouse e Data Mesh**. A ideia é simples: qualquer aluno, em qualquer máquina, consegue abrir um ambiente idêntico ao do professor em segundos — sem instalar nada localmente.
+Esta pasta contém a definição do ambiente de desenvolvimento usado em todos os laboratórios da disciplina **Arquitetura de Compute e Storage na AWS**. A ideia é simples: qualquer aluno, em qualquer máquina, consegue abrir um ambiente idêntico ao do professor em segundos — sem instalar nada localmente.
 
 > [!TIP]
-> Se você é aluno e só quer começar os laboratórios, vá direto para o [setup da aula 00](../00-create-codespaces/README.md). Este README é para quem quer entender **como** o ambiente é construído.
+> Se você é aluno e só quer começar os laboratórios, vá direto para o [setup da aula 01](../01-create-codespaces/README.md). Este README é para quem quer entender **como** o ambiente é construído.
 
 ---
 
@@ -109,7 +109,7 @@ Assim que o Codespaces sobe, o VS Code já vem com as extensões essenciais: Pyt
 ### 4. Comando pós-criação
 
 ```json
-"postCreateCommand": "chmod +x /workspaces/FIAP-.../script.sh && bash /workspaces/FIAP-.../script.sh"
+"postCreateCommand": "chmod +x /workspaces/fiap-cloud-engineering/.devcontainer/script.sh && bash /workspaces/fiap-cloud-engineering/.devcontainer/script.sh"
 ```
 
 Depois que o container é criado, o `postCreateCommand` é executado uma única vez. Ele dá permissão de execução ao [script.sh](script.sh) e o roda. É nesse momento que o Serverless Framework é instalado e o `~/.aws/config` é preparado.
@@ -134,7 +134,7 @@ set -eux
 sudo apt-get update -y
 npm i serverless@3.39.0 -g
 mkdir -p ~/.aws/
-cp /workspaces/FIAP-Data-Warehouse-Lakehouse-e-Data-Mesh/.devcontainer/config ~/.aws/config
+cp /workspaces/fiap-cloud-engineering/.devcontainer/config ~/.aws/config
 ```
 
 Passo a passo:
@@ -146,7 +146,7 @@ Passo a passo:
 5. **`cp .../config ~/.aws/config`** — copia a configuração padrão de região/output para o perfil default da AWS CLI.
 
 > [!IMPORTANT]
-> O `script.sh` **não** copia credenciais. Isso é intencional — credenciais são individuais por aluno e saem do AWS Academy. O aluno precisa colar o `~/.aws/credentials` manualmente a cada sessão. Veja o [setup da aula 00](../00-create-codespaces/README.md) para o passo a passo.
+> O `script.sh` **não** copia credenciais. Isso é intencional — credenciais são individuais por aluno e saem do AWS Academy. O aluno precisa colar o `~/.aws/credentials` manualmente a cada sessão. Veja o [setup da aula 01](../01-create-codespaces/README.md) para o passo a passo.
 
 ---
 
@@ -206,7 +206,7 @@ Para quem preferir rodar em Docker local em vez do Codespaces:
 4. O VS Code executa o mesmo fluxo do Codespaces, só que localmente.
 
 > [!TIP]
-> A recomendação da disciplina é usar o Codespaces. Ele elimina variáveis de instalação local e oferece 60h mensais gratuitas em contas GitHub pessoais, mais que suficiente para a disciplina — desde que você **pare** o ambiente ao final de cada aula.
+> A recomendação da disciplina é usar o Codespaces. Ele elimina variáveis de instalação local e oferece 120h mensais gratuitas em contas GitHub pessoais, mais que suficiente para a disciplina — desde que você **pare** o ambiente ao final de cada aula.
 
 ---
 
@@ -216,4 +216,4 @@ Para quem preferir rodar em Docker local em vez do Codespaces:
 - [GitHub Codespaces Docs](https://docs.github.com/en/codespaces)
 - [Catálogo de Features](https://containers.dev/features)
 - [devcontainer.json reference](https://containers.dev/implementors/json_reference/)
-- [Setup da disciplina (aula 00)](../00-create-codespaces/README.md)
+- [Setup da disciplina (aula 01)](../01-create-codespaces/README.md)

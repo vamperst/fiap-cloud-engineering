@@ -542,7 +542,7 @@ No [lab 03.2 de ECS+Fargate](../02-ECS-Fargate/README.md) você aplica essa deci
 
 **Canais, em ordem:**
 
-1. [Issues deste repositório](https://github.com/rafaelmbarbosa/fiap-cloud-engineering/issues) — preferido, cria histórico pesquisável.
+1. [Issues deste repositório](https://github.com/vamperst/fiap-cloud-engineering/issues) — preferido, cria histórico pesquisável.
 2. Email do professor com os 4 itens acima.
 3. Na sala de aula, durante o laboratório.
 

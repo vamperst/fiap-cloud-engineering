@@ -57,9 +57,7 @@ O truque central de performance do EFS é que ele foi projetado para **paralelis
 
 ## Contexto
 
-A aula introdutória comparou três famílias de storage AWS: **object** (S3), **block** (EBS) e **file** (EFS/FSx). Cada uma tem um perfil de acesso ótimo. Este lab faz o que o [02.1 de S3](../01-Storage-de-Objetos/README.md) fez para object store: medir, com cronômetro na mão, quando o EFS brilha e quando decepciona. Ao final, você terá dados empíricos para decidir em code review ou arquitetura de solução.
-
-O trabalho final ([04-Trabalho-Final](../../04-Trabalho-Final)) retoma exatamente esses comandos para comparar transferência entre EFS e S3 — por isso a notação das variáveis e o ambiente foram pensados para ser reaproveitados.
+A aula introdutória comparou três famílias de storage AWS: **object** (S3), **block** (EBS) e **file** (EFS/FSx). Cada uma tem um perfil de acesso ótimo. Este lab faz para o file storage o que um benchmark de S3 faz para object store: medir, com cronômetro na mão, quando o EFS brilha e quando decepciona. Ao final, você terá dados empíricos para decidir em code review ou arquitetura de solução.
 
 ---
 
@@ -498,9 +496,6 @@ cd /workspaces/fiap-cloud-engineering/02-Storage/01-Network-file-system/rede-vpc
 terraform destroy -auto-approve
 ```
 
-> [!NOTE]
-> O [trabalho final](../../04-Trabalho-Final) reutiliza a mesma VPC. Se você vai fazer o trabalho final em seguida, **pule o passo 26** e deixe a VPC e route tables vivas — mas ainda assim destrua o stack do EFS+EC2 (passo 25).
-
 ### Checkpoint
 
 - [x] `aws efs describe-file-systems --query "FileSystems[?Name=='SID-efs']"` retorna `[]`.
@@ -518,7 +513,7 @@ Três lições centrais do lab:
 
 ## Próximo passo
 
-No [trabalho final](../../04-Trabalho-Final) você combina esses comandos com os do lab de S3 para medir **transferência EFS → S3** sob diferentes configurações. Se você não destruiu a VPC no passo 26, está pronto para começar; se destruiu, basta rodar o Terraform do trabalho final que sobe uma VPC nova.
+Siga para o [Lab 03.1 - Compute: x86 vs Graviton](../../03-Compute/01-X86-Graviton/README.md). Lá você sai do storage e entra em compute, comparando arquiteturas de CPU (Intel x86 vs AWS Graviton) com benchmarks lado a lado.
 
 ---
 
@@ -557,7 +552,7 @@ No [trabalho final](../../04-Trabalho-Final) você combina esses comandos com os
 
 **Canais, em ordem:**
 
-1. [Issues deste repositório](https://github.com/rafaelmbarbosa/fiap-cloud-engineering/issues) — preferido, cria histórico pesquisável.
+1. [Issues deste repositório](https://github.com/vamperst/fiap-cloud-engineering/issues) — preferido, cria histórico pesquisável.
 2. Email do professor com os 4 itens acima.
 3. Na sala de aula, durante o laboratório.
 
