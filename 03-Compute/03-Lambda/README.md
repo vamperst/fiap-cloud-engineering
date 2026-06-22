@@ -119,13 +119,9 @@ São 10 pedidos, todos do dia `2026-03-15`, distribuídos em 4 cidades. Como o d
 
 Pipeline `API Gateway → Lambda → S3` no ar, os 10 pedidos gravados no data lake, e um dashboard mostrando os 4 golden signals + faturamento por cidade.
 
-```mermaid
-flowchart LR
-    C["curl<br/>(cada pedido)"] --> A["API Gateway<br/>POST /pedidos"]
-    A -->|evento| L["Lambda<br/>pedeja-ingestao"]
-    L --> S["S3<br/>data lake"]
-    L -.métricas/logs/trace.-> O["CloudWatch<br/>+ X-Ray"]
-```
+![Arquitetura da Fase 1: API Gateway invoca a Lambda que grava no S3 e envia telemetria ao CloudWatch](diagramas/fase-1.png)
+
+> Diagrama editável (Excalidraw): [`diagramas/fase-1.excalidraw`](diagramas/fase-1.excalidraw) — abra em [excalidraw.com](https://excalidraw.com).
 
 <a id="passo-2"></a>
 **2.** Entre na pasta da Fase 1 e inicialize o Terraform. O bucket de estado é descoberto automaticamente pelo prefixo `base-config-`:
@@ -273,15 +269,9 @@ O `valor_pedido` por cidade é uma **métrica de negócio**, emitida pela própr
 
 Pipeline `API Gateway → Lambda produtora → SQS → Lambda consumidora → S3`, com **DLQ** para falhas. O produtor responde em milissegundos (só enfileira) e a fila absorve o pico.
 
-```mermaid
-flowchart LR
-    C["curl"] --> A["API Gateway"]
-    A -->|evento| P["Lambda<br/>produtora"]
-    P -->|envia| Q["SQS<br/>pedeja-pedidos"]
-    Q -->|evento em lote| K["Lambda<br/>consumidora"]
-    K --> S["S3"]
-    Q -.falhas 3x.-> D["DLQ"]
-```
+![Arquitetura da Fase 2: API Gateway, Lambda produtora, fila SQS, Lambda consumidora, S3 e DLQ para falhas](diagramas/fase-2.png)
+
+> Diagrama editável (Excalidraw): [`diagramas/fase-2.excalidraw`](diagramas/fase-2.excalidraw) — abra em [excalidraw.com](https://excalidraw.com).
 
 <a id="passo-8"></a>
 **8.** Entre na pasta da Fase 2 e inicialize:
@@ -391,16 +381,9 @@ Saída esperada: `10`. A fila esvaziou e os 10 pedidos chegaram ao data lake —
 
 Pipeline `API Gateway → Lambda produtora → Kinesis → 2 consumidores independentes`: um grava no data lake (S3), outro agrega faturamento em tempo real. Os dois leem o **mesmo** stream sem disputar o dado.
 
-```mermaid
-flowchart LR
-    C["curl"] --> A["API Gateway"]
-    A -->|evento| P["Lambda<br/>produtora"]
-    P -->|publica| KS["Kinesis<br/>stream"]
-    KS -->|mesmo dado| D1["Lambda<br/>data lake"]
-    KS -->|mesmo dado| D2["Lambda<br/>faturamento"]
-    D1 --> S["S3"]
-    D2 --> M["CloudWatch<br/>faturamento/cidade"]
-```
+![Arquitetura da Fase 3: um Kinesis stream alimenta dois consumidores independentes — um grava no S3, outro agrega faturamento no CloudWatch](diagramas/fase-3.png)
+
+> Diagrama editável (Excalidraw): [`diagramas/fase-3.excalidraw`](diagramas/fase-3.excalidraw) — abra em [excalidraw.com](https://excalidraw.com).
 
 <a id="passo-13"></a>
 **13.** Entre na pasta da Fase 3 e inicialize:
