@@ -160,14 +160,16 @@ Ao final, o Terraform imprime 3 saídas (`api_url`, `bucket_datalake`, `dashboar
 
 ![](img/f1-apply.png)
 
-**3.2.** Em vez de copiar e colar essas saídas, capture-as direto do Terraform em variáveis de ambiente — os próximos passos usam essas variáveis, então **rode na mesma pasta `fase-1-ingestao`**:
+**3.2.** Em vez de copiar e colar a URL, capture os valores em variáveis de ambiente — os próximos passos usam `$API` e `$BUCKET`, então **rode na mesma pasta `fase-1-ingestao`**:
 
 ```bash
 export API=$(terraform output -raw api_url)
-export BUCKET=$(terraform output -raw bucket_datalake)
+export BUCKET="pedeja-datalake-$(aws sts get-caller-identity --query Account --output text)"
 echo "API....: $API"
 echo "BUCKET.: $BUCKET"
 ```
+
+O `$API` vem do output do Terraform; o `$BUCKET` é montado a partir do ID da sua conta (o nome do bucket é sempre `pedeja-datalake-<sua-conta>`).
 
 > [!TIP]
 > Essas variáveis valem enquanto o terminal estiver aberto. Se você fechar o terminal ou abrir outro, rode de novo o passo 3.2 (de dentro da pasta da fase) para recriá-las.
@@ -377,15 +379,13 @@ terraform init \
 terraform apply -auto-approve
 ```
 
-<!-- PRINT SUGERIDO: img/f2-apply.png
-     Saida do terraform apply da Fase 2 com "Apply complete! Resources: 12 added" e os outputs api_url, queue_url, dashboard_url. -->
 ![](img/f2-apply.png)
 
 **10.2.** Capture os valores em variáveis (rode na pasta `fase-2-fila`):
 
 ```bash
 export API=$(terraform output -raw api_url)
-export BUCKET=$(terraform output -raw bucket_datalake)
+export BUCKET="pedeja-datalake-$(aws sts get-caller-identity --query Account --output text)"
 echo "API....: $API"
 echo "BUCKET.: $BUCKET"
 ```
@@ -508,7 +508,7 @@ terraform apply -auto-approve
 
 ```bash
 export API=$(terraform output -raw api_url)
-export BUCKET=$(terraform output -raw bucket_datalake)
+export BUCKET="pedeja-datalake-$(aws sts get-caller-identity --query Account --output text)"
 echo "API....: $API"
 echo "BUCKET.: $BUCKET"
 ```
