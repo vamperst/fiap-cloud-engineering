@@ -412,7 +412,7 @@ cd /workspaces/fiap-cloud-engineering/03-Compute/03-Lambda
 python3 dados/publicar_500.py "$API"
 ```
 
-Saída esperada (poucos segundos): `500/500 pedidos publicados em Ns`. Cada chamada respondeu `202 Accepted` (**`enfileirado`**, não `gravado`) — o produtor responde antes de o S3 ser tocado. É o desacoplamento absorvendo o pico: 500 requisições quase simultâneas entram na fila sem travar o app.
+Uma barra de progresso mostra o avanço em tempo real (`[####....] 40% 200/500 pedidos`). Saída final: `Concluido: 500/500 pedidos publicados em Ns`. Cada chamada respondeu `202 Accepted` (**`enfileirado`**, não `gravado`) — o produtor responde antes de o S3 ser tocado. É o desacoplamento absorvendo o pico: 500 requisições quase simultâneas entram na fila sem travar o app.
 
 <a id="passo-12"></a>
 **12.** Aguarde a consumidora drenar a fila e confirme que os 500 chegaram ao S3 (**go/no-go**). Usa a variável `$BUCKET` do passo 10.2:
@@ -552,7 +552,7 @@ cd /workspaces/fiap-cloud-engineering/03-Compute/03-Lambda
 python3 dados/publicar_5000.py "$API"
 ```
 
-Saída esperada (leva ~45-60s): `5000/5000 pedidos publicados em Ns`.
+Uma barra de progresso mostra o avanço em tempo real (`[########....] 60% 3000/5000 pedidos (ok: 3000, ...)`). Saída final (leva ~1-2 min): `Concluido: 5000/5000 pedidos publicados em Ns`.
 
 <details>
 <summary><b>⚠ Se der erro: alguns pedidos falharam (ex.: <code>4998/5000</code>)</b></summary>

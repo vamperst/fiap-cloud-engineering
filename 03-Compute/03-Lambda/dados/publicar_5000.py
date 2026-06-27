@@ -5,6 +5,8 @@ Os 5000 sao deterministicos: ciclam os 10 pedidos fixos de pedidos.json
 (500 vezes), com pedido_id unico PED-0001..PED-5000. Assim o faturamento
 por cidade e exatamente 500x o dos 10 -> todo aluno obtem os mesmos numeros.
 
+Mostra uma barra de progresso em tempo real (atualiza na mesma linha).
+
 Uso (a variavel API vem do passo de captura do lab):
     python3 publicar_5000.py "$API"
 """
@@ -24,6 +26,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 base = json.load(open(os.path.join(DIR, "pedidos.json"), encoding="utf-8"))
 
 TOTAL = 5000
+WORKERS = 50
 
 
 def envia(i):
@@ -36,23 +39,43 @@ def envia(i):
         headers={"Content-Type": "application/json"}, method="POST",
     )
     try:
-        urllib.request.urlopen(req, timeout=30).read()
+        urllib.request.urlopen(req, timeout=15).read()
         return True
     except Exception:
         return False
 
 
+def barra(feitos, ok, total, t0):
+    pct = feitos * 100 // total
+    cheio = pct // 5  # barra de 20 caracteres
+    barra_txt = "#" * cheio + "." * (20 - cheio)
+    taxa = feitos / max(time.time() - t0, 0.001)
+    # \r volta ao inicio da linha; end="" e flush mantem tudo na MESMA linha
+    sys.stdout.write(
+        f"\r[{barra_txt}] {pct:3d}%  {feitos}/{total} pedidos"
+        f"  (ok: {ok}, {taxa:.0f}/s)   "
+    )
+    sys.stdout.flush()
+
+
 def main():
     t0 = time.time()
-    ok = 0
-    # 50 conexoes simultaneas: ~5000 POSTs em menos de 1 min
-    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as ex:
-        for r in ex.map(envia, range(TOTAL)):
-            ok += 1 if r else 0
+    feitos = ok = 0
+    print(f"Publicando {TOTAL} pedidos em {API}/pedidos ...")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKERS) as ex:
+        futuros = [ex.submit(envia, i) for i in range(TOTAL)]
+        # as_completed: conta conforme CADA req termina (progresso real,
+        # nao trava se uma demora mais que as outras)
+        for fut in concurrent.futures.as_completed(futuros):
+            feitos += 1
+            ok += 1 if fut.result() else 0
+            if feitos % 25 == 0 or feitos == TOTAL:
+                barra(feitos, ok, TOTAL, t0)
+    print()  # quebra a linha da barra ao terminar
     dur = time.time() - t0
-    print(f"{ok}/{TOTAL} pedidos publicados em {dur:.0f}s")
+    print(f"Concluido: {ok}/{TOTAL} pedidos publicados em {dur:.0f}s.")
     if ok < TOTAL:
-        print(f"ATENCAO: {TOTAL - ok} falharam. Rode de novo para completar.")
+        print(f"ATENCAO: {TOTAL - ok} falharam. Rode de novo para completar os que faltaram.")
 
 
 if __name__ == "__main__":
