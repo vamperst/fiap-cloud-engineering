@@ -32,6 +32,17 @@ aplica() {
     -backend-config="bucket=$BUCKET_STATE" \
     -backend-config="key=trabalho-final/$chave/terraform.tfstate" \
     -backend-config="region=us-east-1" >&2
+  # Quem rodou o lab antes do conserto do bucket tem `aws_s3_bucket.datalake`
+  # gravado no state, e o refresh desse recurso chama
+  # GetObjectLockConfiguration — negado por SCP na conta do AWS Academy. O apply
+  # reprova no refresh, sem nunca chegar no recurso novo, mesmo com o codigo
+  # atualizado. Tirar do state nao toca na AWS: o bucket continua existindo com
+  # os dados dentro, e o terraform_data adota ele pelo head-bucket.
+  if terraform -chdir="$TF/$dir" state list 2>/dev/null | grep -qx 'aws_s3_bucket.datalake'; then
+    log "    state de uma execucao anterior tem aws_s3_bucket.datalake; removendo do state (o bucket na AWS nao e afetado)"
+    terraform -chdir="$TF/$dir" state rm aws_s3_bucket.datalake >&2
+  fi
+
   terraform -chdir="$TF/$dir" apply -auto-approve >&2
 }
 
